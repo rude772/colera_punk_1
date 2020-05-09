@@ -9,11 +9,12 @@ import os
 screen_width = 1600
 screen_heigth = 900
 
+
 class Player(pygame.sprite.Sprite):
 
     # Configurações de teste do Player. Será desenhado para testar movimentação
     player_width = 25
-    player_height = 65
+    player_height = 60
     player_color = (255, 255, 255)
 
     # Inicialização do Player
@@ -28,7 +29,6 @@ class Player(pygame.sprite.Sprite):
         self.rect.left = self.player_width * 5
 
         # Configurações iniciais de vetores de velocidade
-        # self.change_x = 0
         self.change_x = 0
         self.change_y = 0
 
@@ -36,14 +36,14 @@ class Player(pygame.sprite.Sprite):
     def update(self):
 
         # Definições de parâmetros para gravidade
-        self.calc_gravity()
+        self.gravity()
         self.rect.x += self.change_x
         self.rect.y += self.change_y
 
     # Calcular o efeito da gravidade
-    def calc_gravity(self):
-        gravity = 8  # Define o valor de gravidade
-        self.change_y += gravity if self.change_y != 0 else 0
+    def gravity(self):
+        g = self.player_height * 0.27  # Define o valor de gravidade
+        self.change_y += g if self.change_y != 0 else 0
 
         # Checa se o player está no chão
         if self.rect.y >= screen_heigth - self.rect.height and self.change_y >= 0:
@@ -52,17 +52,17 @@ class Player(pygame.sprite.Sprite):
 
     # Funções para movimentação horizontal
     def go_left(self):
-        self.change_x = -6
+        self.change_x = -10
 
     def go_right(self):
-        self.change_x = 6
+        self.change_x = 10
 
     def stop(self):
         self.change_x = 0
 
     # Função para pular
     def jump(self):
-        jump_height = -55  # Define a altura do pulo
+        jump_height = -self.player_height  # Define a altura do pulo
         if self.rect.bottom >= screen_heigth:
             self.change_y = jump_height
 
